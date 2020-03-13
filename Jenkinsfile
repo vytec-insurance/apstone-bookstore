@@ -7,8 +7,7 @@ node('Slave1'){
         def mavenhome = tool  name: 'Maven2' , type: 'maven';
         withSonarQubeEnv('Sonar') {
         sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
-    }
-  }
+      }
     }    
     stage("deploying artifacts"){
         def server = Artifactory.server 'jfrog'
