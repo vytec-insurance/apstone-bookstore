@@ -21,7 +21,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qdrs-core
+  name: bookstore
   labels:
     app: Prod
   namespace: prod-deployment
@@ -38,8 +38,8 @@ spec:
         app: Prod
     spec:
       containers:
-      - image: steju480/qdrs.app.v1:latest
-        name: qdrs
+      - image: steju480/bookstore.app.v1:latest
+        name: bookstore
         ports:
         - containerPort: 8080
         resources:
