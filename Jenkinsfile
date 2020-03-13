@@ -14,7 +14,7 @@ node('Slave1'){
         rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
         rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
         rtMaven.tool = 'Maven2'
-        def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+        def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean package'
     }
     stage("copying required files"){
         sh "scp -o StrictHostKeyChecking=no target/*.war root@docker-master:/inet/projects"
