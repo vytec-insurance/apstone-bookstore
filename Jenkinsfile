@@ -9,11 +9,6 @@ node('Slave1'){
         sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
     }
   }
-    stage("sonar scanner execution"){
-        def scannerHome = tool 'Sonar-3.2';
-        withSonarQubeEnv('Sonar') {
-          sh """${scannerHome}/bin/sonar-scanner -D sonar.login=admin -D sonar.password=admin"""
-        }
     }    
     stage("deploying artifacts"){
         def server = Artifactory.server 'jfrog'
@@ -31,19 +26,19 @@ node('Slave1'){
  }  
 node('Docker-master'){
     stage("Building the Docker image"){ 
-        sh 'docker build -t qdrs.app.v1.$BUILD_ID /inet/projects'
-        sh 'docker tag qdrs.app.v1.$BUILD_ID steju480/qdrs.app.v1.$BUILD_ID'
-        sh 'docker tag qdrs.app.v1.$BUILD_ID steju480/qdrs.app.v1'
+        sh 'docker build -t bookstore.app.v1.$BUILD_ID /inet/projects'
+        sh 'docker tag bookstore.app.v1.$BUILD_ID steju480/bookstore.app.v1.$BUILD_ID'
+        sh 'docker tag bookstore.app.v1.$BUILD_ID steju480/bookstore.app.v1'
     }
     stage("Docker image push"){
         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
             sh "docker login -u ${user} -p ${password}"
             sh 'docker login -u steju480 -p Steju@1997'
-            sh 'docker push steju480/qdrs.app.v1.$BUILD_ID'
-            sh 'docker push steju480/qdrs.app.v1'
-            sh 'docker rmi steju480/qdrs.app.v1.$BUILD_ID'
-            sh 'docker rmi steju480/qdrs.app.v1' 
-            sh 'docker rmi qdrs.app.v1.$BUILD_ID'
+            sh 'docker push steju480/bookstore.app.v1.$BUILD_ID'
+            sh 'docker push steju480/bookstore.app.v1'
+            sh 'docker rmi steju480/bookstore.app.v1.$BUILD_ID'
+            sh 'docker rmi steju480/bookstore.app.v1' 
+            sh 'docker rmi bookstore.app.v1.$BUILD_ID'
           }                        
       }  
  }                             
