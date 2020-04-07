@@ -1,7 +1,8 @@
 node('Slave1'){
     stage("git clone"){
        checkout([$class: 'GitSCM', branches: [[name: '*/QA']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB', url: 'https://github.com/Saiteju1997/Capstone-B19-bookstoreV1.0.git']]])
-    stage('SonarQube analysis') {
+    }
+       stage('SonarQube analysis') {
         def scannerHome = tool 'Sonar-3.2';
         def mavenhome = tool  name: 'Maven2' , type: 'maven';
         withSonarQubeEnv('Sonar') {
