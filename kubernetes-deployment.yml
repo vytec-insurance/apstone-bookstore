@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prod-deployment
+  name: QA-deployment
   labels:
     apps: web-based
   annotations:
@@ -10,7 +10,7 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: mem-cpu-quota
-  namespace: prod-deployment
+  namespace: QA-deployment
 spec:
   hard:
     requests.cpu: "4"
@@ -24,7 +24,7 @@ metadata:
   name: bookstore
   labels:
     app: Prod
-  namespace: prod-deployment
+  namespace: QA-deployment
   annotations:
     monitoring: "true"
 spec:
@@ -56,10 +56,10 @@ metadata:
   labels:
     app: Prod
   name: prod-service
-  namespace: prod-deployment
+  namespace: QA-deployment
 spec:
   ports:
-  - nodePort: 30000
+  - nodePort: 30003
     port: 8080
     protocol: TCP
     targetPort: 8080
