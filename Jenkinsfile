@@ -16,7 +16,6 @@ node(){
         sh "scp -o StrictHostKeyChecking=no Dockerfile root@docker-master:/inet/projects"
         sh "scp -o StrictHostKeyChecking=no kubernetes-deployment.yml root@k8smaster:/inet/projects"
    }
- }  
 
     stage("Building the Docker image"){ 
         sh 'docker build -t bookstore.app.v1.$BUILD_ID /inet/projects'
