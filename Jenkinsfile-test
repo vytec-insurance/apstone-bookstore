@@ -20,14 +20,12 @@ node {
         sh 'docker build -t steju480/bookstore.app.v1.$BUILD_ID .'
    }
    stage("Docker image push"){
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'password', usernameVariable: 'user')]) {
-            sh "docker login -u ${user} -p ${password}"
+     
             sh 'docker login -u steju480 -p Steju@1997'
             sh 'docker push steju480/bookstore.app.v1.$BUILD_ID'
             sh 'docker rmi steju480/bookstore.app.v1.$BUILD_ID'
             sh 'docker rmi steju480/bookstore.app.v1' 
-            
-          }                        
+                                  
       }  
 }
 
