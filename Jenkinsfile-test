@@ -20,12 +20,13 @@ node {
         sh 'docker build -t steju480/bookstore.app.v1.$BUILD_ID .'
    }
    stage("Docker image push"){
-     
             sh 'docker login -u steju480 -p Steju@1997'
             sh 'docker push steju480/bookstore.app.v1.$BUILD_ID'
-            sh 'docker rmi steju480/bookstore.app.v1.$BUILD_ID'
-            sh 'docker rmi steju480/bookstore.app.v1' 
-                                  
+            sh 'docker rmi steju480/bookstore.app.v1.$BUILD_ID'                          
       }  
+  stage("deploying the app"){     
+        sh "kubectl delete -f kubernetes-deployment.yml"
+        sh "kubectl create -f kubernetes-deployment.yml"
+     }    
 }
 
