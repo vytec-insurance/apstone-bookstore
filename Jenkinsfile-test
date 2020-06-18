@@ -25,8 +25,8 @@ node {
             sh 'docker rmi steju480/bookstore.app.v1.$BUILD_ID'                          
       }  
   stage("deploying the app"){     
-        sh "kubectl delete -f nginx-pod.yml"
-        sh "kubectl create -f nginx-service.yml"
+        sh "kubectl apply -f nginx-pod.yml"
+        sh "kubectl apply -f nginx-service.yml"
      }    
 }
 
