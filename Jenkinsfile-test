@@ -16,4 +16,8 @@ node {
          }
       }
    }
+   stage("Building the Docker image"){ 
+        sh 'docker build -t devopsjuly22017/bookstore.app.v1.$BUILD_ID .'
+   }
 }
+
