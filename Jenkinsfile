@@ -1,4 +1,4 @@
-node('Slave1'){
+node('maven-slave'){
     stage("git clone"){
        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB', url: 'https://github.com/Saiteju1997/Capstone-B19-bookstoreV1.0.git']]])      }
     stage('SonarQube analysis') {
@@ -8,7 +8,7 @@ node('Slave1'){
         sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar'
       }
     }    
-    stage("deploying artifacts"){
+    stage("build-upload artifacts"){
         def server = Artifactory.server 'jfrog'
         def rtMaven = Artifactory.newMavenBuild()
         rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
