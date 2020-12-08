@@ -1,4 +1,4 @@
-node('maven-slave'){
+node(){
     stage("git clone"){
        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB', url: 'https://github.com/Saiteju1997/Capstone-B19-bookstoreV1.0.git']]])      }
     stage('SonarQube analysis') {
@@ -21,8 +21,8 @@ node('maven-slave'){
         sh "scp -o StrictHostKeyChecking=no Dockerfile root@docker-master:/inet/projects"
         sh "scp -o StrictHostKeyChecking=no kubernetes-deployment.yml root@k8smaster:/inet/projects"
    }
- }  
-node('Docker-master'){
+
+
     stage("Building the Docker image"){ 
         sh 'docker build -t bookstore.app.v1.$BUILD_ID /inet/projects'
         sh 'docker tag bookstore.app.v1.$BUILD_ID steju480/bookstore.app.v1.$BUILD_ID'
@@ -39,10 +39,9 @@ node('Docker-master'){
             sh 'docker rmi bookstore.app.v1.$BUILD_ID'
           }                        
       }  
- }                             
- node('kubernetes'){
      stage("deploying the app"){     
+        sh 'aws eks --region <region-code> update-kubeconfig --name mycluster'
         sh "kubectl delete -f /inet/projects/kubernetes-deployment.yml"
         sh "kubectl create -f /inet/projects/kubernetes-deployment.yml"
-  }
+
 }      
